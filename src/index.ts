@@ -17,7 +17,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     else if (req.method === 'POST' && req.url === '/file') {
-        const form = formidable.formidable({});
+        const form = formidable({});
         let filepath = null;
         let fields;
         let files;
