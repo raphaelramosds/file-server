@@ -1,6 +1,6 @@
-const http = require('http');
-const formidable = require('formidable');
-const fs = require('fs/promises');
+import http from 'http';
+import fs from 'fs/promises';
+import formidable from 'formidable';
 
 const hostname = '127.0.0.1';
 const port = 3000;

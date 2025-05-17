@@ -4,6 +4,7 @@
   "description": "A web server to receive files via form data and upload them",
   "main": "index.js",
   "scripts": {
+    "dev": "ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,5 +19,10 @@
   "homepage": "https://github.com/raphaelramosds/file-server#readme",
   "dependencies": {
     "formidable": "^3.5.4"
+  },
+  "devDependencies": {
+    "@types/formidable": "^3.4.5",
+    "@types/node": "^22.15.18",
+    "typescript": "^5.8.3"
   }
 }
