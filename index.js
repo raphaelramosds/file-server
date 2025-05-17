@@ -1,6 +1,6 @@
-import http from 'http';
-import formidable from 'formidable';
-import fs from 'fs/promises';
+const http = require('http');
+const formidable = require('formidable');
+const fs = require('fs/promises');
 
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -13,37 +13,37 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method == 'GET' && req.url == '/') {
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({message: 'Server is alive!'}) );
+        res.end(JSON.stringify({ message: 'Server is alive!' }));
     }
 
     else if (req.method === 'POST' && req.url === '/file') {
-        const form = formidable({});
-        let filepath;
+        const form = formidable.formidable({});
+        let filepath = null;
         let fields;
         let files;
-        
+
         try {
             [fields, files] = await form.parse(req);
-        } catch (err) {
-            console.error(err);
-            res.writeHead(400, { 'Content-Type' : 'text/plain' });
-            res.end(String(err));
-        }
 
-        if (files.file) {
-            filepath = files.file[0].filepath;
-        }
+            if (files.file) {
+                filepath = files.file[0].filepath;
+            }
 
-        try {
-            const data = await fs.readFile(filepath, {encoding: 'utf8'});
+            if (!filepath) throw new Error('There is no file uploaded');
+
+            const data = await fs.readFile(filepath, { encoding: 'utf8' });
             console.log('File content:');
             console.log(data);
+
         } catch (err) {
-            console.log(err);
+            console.error(err);
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: String(err) }, null, 2));
+            return;
         }
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'File upload successfully'}, null, 2));
+        res.end(JSON.stringify({ message: 'File upload successfully' }, null, 2));
     }
 
     else {
